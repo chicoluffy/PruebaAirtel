@@ -3,19 +3,29 @@ package utils
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"test2/models"
+
+	"github.com/joho/godotenv"
 )
 
 func Post(Autorization models.Autorization) (models.EncryptionKey, error) {
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Error loading .env file")
+		return models.EncryptionKey{}, err
+	}
+	url := os.Getenv("URL_AUTORIZATION")
 	var encryptionKey models.EncryptionKey
 	jsonData, err := json.Marshal(Autorization)
 	if err != nil {
 		return encryptionKey, err
 	}
 
-	req, err := http.NewRequest("POST", "https://openapiuat.airtel.africa/auth/oauth2/token", bytes.NewBuffer(jsonData))
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return encryptionKey, err
 	}

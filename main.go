@@ -2,16 +2,26 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"test2/models"
 	"test2/utils"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Error loading .env file")
+		return
+	}
+	clientID := os.Getenv("CLIENT_ID")
+	clientSecret := os.Getenv("CLIENT_SECRET")
 
 	// Create a new Autorization struct
 	Autorization := models.Autorization{
-		ClientID:     "2a779896-3bf3-4753-a453-3f80fa85faf7",
-		ClientSecret: "a4e43cc1-94a6-43eb-b749-0f53975bef26",
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
 		GrantType:    "client_credentials",
 	}
 	encryptionKey, err := utils.Post(Autorization)

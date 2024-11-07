@@ -1,0 +1,9 @@
+# Ignorar el archivo .env
+.env
+
+# Otros archivos y carpetas que deseas ignorar
+/vendor/
+/bin/
+/obj/
+*.log
+*.tmp
