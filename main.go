@@ -29,5 +29,12 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+	fmt.Println(encryptionKey)
+	response, err := utils.Get(encryptionKey)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(response)
 
 }
