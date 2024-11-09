@@ -22,10 +22,10 @@ func Get(encryptionKey models.EncryptionKey) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	req.Header.Set("Authorization", "Bearer "+encryptionKey.AccessToken)
 	req.Header.Set("X-Country", "UG")
 	req.Header.Set("X-Currency", "UGX")
-	req.Header.Set("Authorization", "Bearer "+encryptionKey.AccessToken)
-	req.Header.Set("Accept", "*/*")
+	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	resp, err := client.Do(req)
