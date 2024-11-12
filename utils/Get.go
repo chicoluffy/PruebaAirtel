@@ -16,17 +16,19 @@ func Get(encryptionKey models.EncryptionKey) (string, error) {
 		fmt.Println("Error loading .env file")
 		return "", err
 	}
-	urlkey := os.Getenv("URL_Encryption")
-	url := urlkey
-	req, err := http.NewRequest("GET", url, nil)
+	urlTemplate := os.Getenv("URL_Encryption")
+
+	fmt.Println("Esto es el URL:", urlTemplate)
+	req, err := http.NewRequest("GET", urlTemplate, nil)
 	if err != nil {
 		return "", err
 	}
+	fmt.Printf("Access Token: %s\n", encryptionKey.AccessToken)
 	req.Header.Set("Authorization", "Bearer "+encryptionKey.AccessToken)
-	req.Header.Set("X-Country", "UG")
-	req.Header.Set("X-Currency", "UGX")
-	req.Header.Set("Accept", "application/json")
-	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("X-Country", "MW")
+	req.Header.Set("X-Currency", "MWK")
+	req.Header.Set("Authorization", "Bearer "+encryptionKey.AccessToken)
+
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
