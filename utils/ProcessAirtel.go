@@ -23,6 +23,17 @@ func GenerateSerial() string {
 	}
 	return strings.Join(parts, "-")
 }
+func GetCurrentTimeStamp() int64 {
+	now := time.Now()
+	date := now.Format("2006-01-02")
+	timeStr := now.Format("15:04:05")
+	timestamp, err := time.Parse("2006-01-02 15:04:05", date+" "+timeStr)
+	if err != nil {
+		fmt.Println(err)
+		return 0
+	}
+	return timestamp.Unix()
+}
 
 func MakeAirtelRequest(url, accessToken, username, amount, transid string) (string, error) {
 	requestBody := models.AirtelRequest{
