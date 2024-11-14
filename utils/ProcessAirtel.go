@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"test2/models"
 	"time"
 )
 
@@ -35,22 +34,10 @@ func GetCurrentTimeStamp() int64 {
 	return timestamp.Unix()
 }
 
-func MakeAirtelRequest(url, accessToken, username, amount, transid string) (string, error) {
-	requestBody := models.AirtelRequest{
-		Reference: "Testingtransaction",
-		Subscriber: models.Subscriber{
-			Country:  "MW",
-			Currency: "MWK",
-			Msisdn:   username,
-		},
-		Transaction: models.Transaction{
-			Amount:   amount,
-			Country:  "MW",
-			Currency: "MWK",
-			ID:       transid, //cambiar poro generate serial
-		},
-	}
+func MakeAirtelRequest(url, accessToken, username, amount, transid, XSignature, XKey string, requestBody map[string]interface{}) (string, error) {
 	jsonData, err := json.Marshal(requestBody)
+	fmt.Println("Dentro de la funcion:" + string(jsonData))
+	fmt.Println("URL:" + url)
 	if err != nil {
 		return "", err
 	}
@@ -63,6 +50,9 @@ func MakeAirtelRequest(url, accessToken, username, amount, transid string) (stri
 	req.Header.Set("Authorization", "Bearer "+accessToken)
 	req.Header.Set("X-Country", "MW")
 	req.Header.Set("X-Currency", "MWK")
+	req.Header.Set("X-Signature", XSignature)
+	req.Header.Set("X-Key", XKey)
+
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
